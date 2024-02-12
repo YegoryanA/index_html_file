@@ -1,75 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AWS EC2 Info</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            transition: background-color 1s ease;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .info {
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            background-color: #f0f0f0;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>World Clock</title>
+<style>
+  body {
+    background-color: white;
+    color: black;
+    font-family: Arial, sans-serif;
+  }
+  .city {
+    color: black;
+    font-weight: bold;
+    font-size: 24px; /* Increased font size */
+  }
+</style>
 </head>
 <body>
-    <div class="info">
-        <h1>AWS EC2 Information</h1>
-        <p><strong>Private IP Address:</strong> <span id="privateIp"></span></p>
-        <p><strong>Running Time:</strong> <span id="runningTime"></span></p>
-    </div>
+<h1>World Clock</h1>
+<div class="city">Armenia: <span id="armenia-time"></span></div>
+<div class="city">Dubai: <span id="dubai-time"></span></div>
+<div class="city">London: <span id="london-time"></span></div>
+<div class="city">New York: <span id="new-york-time"></span></div> <!-- Added New York -->
+<div class="city">Tokyo: <span id="tokyo-time"></span></div> <!-- Added Tokyo -->
 
-    <script>
-        // Function to get EC2 private IP
-        function getPrivateIp() {
-            fetch('http://169.254.169.254/latest/meta-data/local-ipv4')
-                .then(response => response.text())
-                .then(ip => document.getElementById('privateIp').textContent = ip)
-                .catch(error => console.error('Error fetching private IP:', error));
-        }
+<script>
+  function updateTime() {
+    const armeniaTime = new Date().toLocaleString("en-US", {timeZone: "Asia/Yerevan"});
+    const dubaiTime = new Date().toLocaleString("en-US", {timeZone: "Asia/Dubai"});
+    const londonTime = new Date().toLocaleString("en-US", {timeZone: "Europe/London"});
+    const newYorkTime = new Date().toLocaleString("en-US", {timeZone: "America/New_York"}); // New York
+    const tokyoTime = new Date().toLocaleString("en-US", {timeZone: "Asia/Tokyo"}); // Tokyo
+    
+    document.getElementById('armenia-time').textContent = armeniaTime;
+    document.getElementById('dubai-time').textContent = dubaiTime;
+    document.getElementById('london-time').textContent = londonTime;
+    document.getElementById('new-york-time').textContent = newYorkTime; // New York
+    document.getElementById('tokyo-time').textContent = tokyoTime; // Tokyo
+  }
 
-        // Function to get running time
-        function getRunningTime() {
-            var startTime = new Date('2024-02-11T00:00:00Z'); // Replace with actual start time
-            var currentTime = new Date();
-            var diff = currentTime - startTime;
-            var seconds = Math.floor(diff / 1000);
-            var minutes = Math.floor(seconds / 60);
-            var hours = Math.floor(minutes / 60);
-            var days = Math.floor(hours / 24);
-            var runningTime = `${days} days, ${hours % 24} hours, ${minutes % 60} minutes, ${seconds % 60} seconds`;
-            document.getElementById('runningTime').textContent = runningTime;
-        }
-
-        // Function to generate random color
-        function getRandomColor() {
-            var letters = '0123456789ABCDEF';
-            var color = '#';
-            for (var i = 0; i < 6; i++) {
-                color += letters[Math.floor(Math.random() * 16)];
-            }
-            return color;
-        }
-
-        // Update background color with random color every 5 seconds
-        setInterval(function() {
-            document.body.style.backgroundColor = getRandomColor();
-        }, 5000);
-
-        // Call functions to fetch EC2 info
-        getPrivateIp();
-        getRunningTime();
-    </script>
+  updateTime();
+  setInterval(updateTime, 1000); // Update every second
+</script>
 </body>
 </html>
-
+<!DOCTYPE html>
